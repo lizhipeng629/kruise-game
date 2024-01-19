@@ -22,6 +22,7 @@ import (
 	"github.com/openkruise/kruise-game/cloudprovider"
 	"github.com/openkruise/kruise-game/cloudprovider/alibabacloud"
 	"github.com/openkruise/kruise-game/cloudprovider/kubernetes"
+	volcenginecloud "github.com/openkruise/kruise-game/cloudprovider/volcengine"
 	corev1 "k8s.io/api/core/v1"
 	log "k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -113,6 +114,16 @@ func NewProviderManager() (*ProviderManager, error) {
 			log.Errorf("Failed to initialize alibabacloud provider.because of %s", err.Error())
 		} else {
 			pm.RegisterCloudProvider(acp, configs.AlibabaCloudOptions)
+		}
+	}
+
+	if configs.VolcengineCloudOptions.Valid() && configs.VolcengineCloudOptions.Enabled() {
+		// build and register volcengine cloud provider
+		vcp, err := volcenginecloud.NewVolcengineCloudProvider()
+		if err != nil {
+			log.Errorf("Failed to initialize volcenginecloud provider.because of %s", err.Error())
+		} else {
+			pm.RegisterCloudProvider(vcp, configs.VolcengineCloudOptions)
 		}
 	}
 

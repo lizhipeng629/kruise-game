@@ -43,13 +43,15 @@ type ConfigFile struct {
 }
 
 type CloudProviderConfig struct {
-	KubernetesOptions   CloudProviderOptions
-	AlibabaCloudOptions CloudProviderOptions
+	KubernetesOptions      CloudProviderOptions
+	AlibabaCloudOptions    CloudProviderOptions
+	VolcengineCloudOptions CloudProviderOptions
 }
 
 type tomlConfigs struct {
-	Kubernetes   options.KubernetesOptions   `toml:"kubernetes"`
-	AlibabaCloud options.AlibabaCloudOptions `toml:"alibabacloud"`
+	Kubernetes      options.KubernetesOptions      `toml:"kubernetes"`
+	AlibabaCloud    options.AlibabaCloudOptions    `toml:"alibabacloud"`
+	VolcengineCloue options.VolcengineCloudOptions `toml:"volcenginecloud"`
 }
 
 func (cf *ConfigFile) Parse() *CloudProviderConfig {
@@ -60,8 +62,9 @@ func (cf *ConfigFile) Parse() *CloudProviderConfig {
 	}
 
 	return &CloudProviderConfig{
-		KubernetesOptions:   config.Kubernetes,
-		AlibabaCloudOptions: config.AlibabaCloud,
+		KubernetesOptions:      config.Kubernetes,
+		AlibabaCloudOptions:    config.AlibabaCloud,
+		VolcengineCloudOptions: config.VolcengineCloue,
 	}
 }
 
